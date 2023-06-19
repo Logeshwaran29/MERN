@@ -1,0 +1,16 @@
+.login{
+    display: grid;
+    background-color: aqua;
+    text-align: center;
+    justify-content: center;
+}
+.signup{
+    display: grid;
+    background-color: aqua;
+    text-align: center;
+    justify-content: center;
+}
+.form{
+    display: grid;
+    width: 20%;
+}
