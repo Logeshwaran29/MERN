@@ -11,7 +11,7 @@ export const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cpassword, setCPassword] = useState('');
-    const link=useNavigate();
+    const link = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();

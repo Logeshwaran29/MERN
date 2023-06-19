@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 export const Login = () => {
-    const link =useNavigate();
+    const link = useNavigate();
     const [email, setEmail] =useState('');
     const [password, setPassword] = useState('');
 
