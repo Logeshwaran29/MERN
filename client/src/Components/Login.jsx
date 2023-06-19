@@ -5,22 +5,26 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 export const Login = () => {
-    const [name, setName] =useState('');
+    const [email, setEmail] =useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8000/login', {
-            name: name,
-            password: password
-        })
+        try {
+            axios.post('http://localhost:3333/login', {
+                email: email,
+                password: password
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <div className='login'>
             <h1>Login</h1>
             <form className="form" method="post">
-                <label>Username or Email Id</label>
-                <input type="text" onChange={(e)=>{setName(e.target.value)}} required/>
+                <label>Email Id</label>
+                <input type="text" onChange={(e)=>{setEmail(e.target.value)}} required/>
                 <label>Enter Password</label>
                 <input type="password" onChange={(e)=>{setPassword(e.target.value)}} required/>
                 <button type="submit" onClick={handleSubmit}>Login</button>

@@ -5,95 +5,55 @@ const cors = require('cors');
 exp.use(cors());
 exp.use(express.json());
 
-var groups;
-var mainproject;
+var db;
 
 exp.get('/',(req,res)=>{
     res.send("database connected .....");
 })
 
-
-exp.post('/createGroup',(req,res)=>{
-  console.log("create group entered");
-
-  console.log("staffName:---"+req.body.StaffName);console.log("Groups:---"+req.body.groupName);
-  
-  groups.createCollection(req.body.groupName,(err)=>{
-        if(err){
-            res.send("Group aldredy Exits....");
-            return;
-        } 
-        res.send("collection created...");
-        mainproject.collection("Staff").findOneAndUpdate( { Sid: req.body.Sid },{  $push: { groups:req.body.groupName } },(err)=>{
-        console.log("entered and begaine..");
-        if (err) throw err;
-        console.log("sucessfully updated or added ");
-      })
-   })
-})
-
-exp.post('/getGroupsData',(req,res)=>{
-    console.log(typeof(req.body.Sid));
-    console.log(req.body.Sid);
-    console.log(req.body);
-    mainproject.collection("Staff").find({Sid:req.body.Sid}).toArray((err,result)=>{
-        if(err)throw err;
-        console.log(result);
-        res.send(result);
-    });
+exp.post('/login',async(req,res)=>{
+  let email=req.body.email;
+  let pass=req.body.password;
+  try{
+    const check =await db.collection('details').findOne({email:email});
+    if(check){
+      if(check.password==pass){
+        res.json('ok');
+      }else{
+        res.json('fail');
+      }
+    }else res.json('fail');
+  }catch(e){
+    res.json('fail');
+  }
 });
 
-//Displaying message
-exp.get('/clickedGroupDatas',(req,res)=>{
-    let groupName="cseaiv";
-    groups.collection(groupName).find({}).toArray((err,result)=>{
-        if(err)throw err;
-        console.log(result);
-        res.send(result);
-    });
-})
-
-// //insert Message
-exp.get('/SendMessage/:collname/:roll',(req,res)=>{
-  const groupName="cseaiv";
-  groups.collection(groupName).insertOne({"Msg":`${req.params.collname}`,"id":`${req.params.roll}`},(err)=>{
-      if(err) throw err;
-      res.send("sucessfully Inserted....");
-  });
-})
-
-//Adding the groupName to Student
-exp.get('/addstudent/:dept/:groupName',(req,res)=>{
-    // let dept="CSEAIV";
-    // let groupName="cseaiv";
-    mainproject.collection("student").updateMany(
-        { dept: req.params.dept },
-        { $push: { groups: req.params.groupName } },
-        (err) => {
-          if (err) {
-            console.error(err);
-            res.status(500).send("An error occurred during the update operation.");
-          } else {
-            res.send("Successfully updated or added.");
-          }
-        }
-      );
-})
-
-
-// exp.get('/collections',(req,res)=>{
-//   database.listCollections().toArray((err,result)=>{
-//       if(err) throw err;
-//       res.send(result);
-//   })
-// })
+exp.post('/signup',async(req,res)=>{
+  const data={
+    name:req.body.name,
+    email:req.body.email,
+    password:req.body.password
+  }
+  try{
+    const check = await db.collection('details').findOne({email:data.email});
+    // db.collection('details').find({email:data.email}).toArray((err,users)=>{
+    //   console.log(users);
+    // })
+    if(check){
+      res.json('fail');
+    }else {
+      await db.collection('details').insertOne(data);
+      res.json('ok');
+    }
+  } catch(e){
+    res.json('fail');
+  }
+});
 
 exp.listen(3333,()=>{
-    // mongoclient.connect("mongodb://0.0.0.0:27017", (err, result)=>{
     mongoclient.connect("mongodb://0.0.0.0:27017/",{useNewUrlParser:true},(err,result)=>{
         if(err) throw err;
-        groups=result.db("Groups");
-        mainproject=result.db("MainProject");
+        db = result.db("login");
         console.log("Sucessfully connected with MongoDB . . .");
     });
 });
