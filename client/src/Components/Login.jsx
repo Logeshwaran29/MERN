@@ -1,10 +1,13 @@
 import React from 'react';
 import './style.css';
 import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 export const Login = () => {
+    const link =useNavigate();
     const [email, setEmail] =useState('');
     const [password, setPassword] = useState('');
 
@@ -15,6 +18,17 @@ export const Login = () => {
                 email: email,
                 password: password
             })
+            .then(res=>{
+                if(res.data==="ok"){
+                    link("/home");
+                }else if(res.data==='fail'){
+                    toast("Enter correct details",{style:{background:"red",color:"white"}});
+                }
+            })
+            .catch((e)=>{
+                console.log(e);
+            });
+
         } catch (error) {
             console.log(error);
         }
@@ -30,6 +44,7 @@ export const Login = () => {
                 <button type="submit" onClick={handleSubmit}>Login</button>
             </form>
             <label>Create new account?</label>
+            <ToastContainer/>
             <Link to='/signup'>Sign Up</Link>
         </div>
     );

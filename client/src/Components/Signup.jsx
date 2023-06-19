@@ -1,19 +1,22 @@
 import React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { useNavigate,Link } from 'react-router-dom'
 import axios from 'axios';
 import './style.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Signup = () => {
     const [name, setName] =useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cpassword, setCPassword] = useState('');
+    const link=useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if(password!== cpassword){
-            alert('Passwords do not match');
+            toast('Passwords do not match',{style:{background:"red",color:"white"}});
             return;
         }
         try{
@@ -22,6 +25,18 @@ export const Signup = () => {
             email,
             password,
         })
+        .then(res=>{
+            if(res.data==='ok'){
+                link('/home');
+            }else if(res.data==='fail'){
+                toast('Already existed',{style:{background:"red",color:"white"}});
+            }
+        }
+
+        ).catch(e=>{
+            console.log(e);
+        });
+
         }catch(e){
             console.log(e);
         };
@@ -42,6 +57,7 @@ export const Signup = () => {
                 <button type="submit" onClick={handleSubmit}>Sign Up</button>
             </form>
             <label>Already have a account?</label>
+            <ToastContainer/>
             <Link to='/'>Login</Link>
         </div>
     );

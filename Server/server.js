@@ -4,6 +4,7 @@ const mongoclient =require("mongodb").MongoClient;
 const cors = require('cors');
 exp.use(cors());
 exp.use(express.json());
+exp.use(express.urlencoded({ extended: true }))
 
 var db;
 
@@ -17,7 +18,7 @@ exp.post('/login',async(req,res)=>{
   try{
     const check =await db.collection('details').findOne({email:email});
     if(check){
-      if(check.password==pass){
+      if(check.password===pass){
         res.json('ok');
       }else{
         res.json('fail');
@@ -36,9 +37,6 @@ exp.post('/signup',async(req,res)=>{
   }
   try{
     const check = await db.collection('details').findOne({email:data.email});
-    // db.collection('details').find({email:data.email}).toArray((err,users)=>{
-    //   console.log(users);
-    // })
     if(check){
       res.json('fail');
     }else {
