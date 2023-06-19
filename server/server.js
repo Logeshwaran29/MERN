@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const { MongoClient } = require('mongodb');
 
-const url = "mongodb://localhost:27017";
+const url = "mongodb://localhost:27017/";
 
 app.get('/', (req, res) => {
   res.send("success");
