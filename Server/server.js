@@ -14,7 +14,7 @@ exp.get('/',(req,res)=>{
 
 exp.post('/data',async(req,res)=>{
     try {
-      await db.collection('details').find().toArray((err,result)=>{
+      await db.collection('details').find({email:req.body.email}).toArray((err,result)=>{
         if(err) throw err;
         res.json(result);
       });

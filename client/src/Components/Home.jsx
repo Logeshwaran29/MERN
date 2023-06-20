@@ -1,15 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const Home = () => {
+    const location =  useLocation();
     const [data, setData] = useState([]);
     const [set,setSet]=useState(false);
 
     const create=(e)=>{
         e.preventDefault();
+        const email= location.state.id;
         try {
-            axios.post('http://localhost:3333/data')
+            axios.post('http://localhost:3333/data',{email: email})
             .then(res=>{
                 console.log(res.data);
                 setData(res.data);
@@ -25,7 +28,7 @@ export const Home = () => {
 
     return (
         <div className='home'>
-            <h1>Home</h1>
+            <h1>Welcome</h1>
             <button type="button" onClick={create}>Show</button>
             <div className={set?'show':'stop'}>
             <table>

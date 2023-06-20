@@ -20,7 +20,7 @@ export const Login = () => {
             })
             .then(res=>{
                 if(res.data==="ok"){
-                    link("/home");
+                    link("/home",{state:{id:email}});
                 }else if(res.data==='fail'){
                     toast("Enter correct details",{style:{background:"red",color:"white"}});
                 }
