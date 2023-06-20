@@ -44,6 +44,7 @@ export const Home = () => {
                     ))}
                 </tbody>
             </table>
+            <button onClick={e=>{setSet(false)}}>close</button>
             </div>
         </div>
     );
