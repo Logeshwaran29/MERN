@@ -18,14 +18,16 @@
     display: grid;
     width: 20%;
 }
+
 th,td{
-    border:2px solid black;
+    border: 2px solid black;
     text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.3em;
 }
 table{
-
     border:2px solid black;
-    width: 50%;
+    width: 30%;
 }
 .stop{
     display: none;
