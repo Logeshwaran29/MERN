@@ -12,6 +12,17 @@ exp.get('/',(req,res)=>{
     res.send("database connected .....");
 })
 
+exp.post('/data',async(req,res)=>{
+    try {
+      await db.collection('details').find().toArray((err,result)=>{
+        if(err) throw err;
+        res.json(result);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+});
+
 exp.post('/login',async(req,res)=>{
   let email=req.body.email;
   let pass=req.body.password;

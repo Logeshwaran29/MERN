@@ -18,3 +18,18 @@
     display: grid;
     width: 20%;
 }
+th,td{
+    border:2px solid black;
+    text-align: center;
+}
+table{
+
+    border:2px solid black;
+    width: 50%;
+}
+.stop{
+    display: none;
+}
+.start {
+    display: block;
+}
