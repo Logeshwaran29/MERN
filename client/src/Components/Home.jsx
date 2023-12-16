@@ -28,7 +28,7 @@ export const Home = () => {
 
     return (
         <div className='home'>
-            <h1>Welcome hi</h1>
+            <h1>Welcome</h1>
             <button type="button" onClick={create}>Show</button>
             <div className={set?'show':'stop'}>
             <table>
